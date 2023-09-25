@@ -48,7 +48,7 @@ export class ChatForm {
         $message.append($('<span>', {
           'class': 'timestamp',
           'data-time': t,
-          text: (new Date(t)).getTime()
+          text: moment(t).fromNow()
     }));
         $message.append($('<span>', {
           'class': 'message-message',
@@ -63,7 +63,20 @@ export class ChatForm {
         $(this.listId).append($messageRow);
         $messageRow.get(0).scrollIntoView();
     }
+
+    init() {
+        this.timer = setInterval(() => {
+          $('[data-time]').each((idx, element) => {
+            let $element = $(element);
+            let timestamp = new Date().setTime($element.attr('data-time'));
+            let ago = moment(timestamp).fromNow();
+            $element.html(ago);
+    });
+    }, 1000);
+    }
   }
+
+  
 
   
 
