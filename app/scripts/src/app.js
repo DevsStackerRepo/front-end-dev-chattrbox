@@ -7,11 +7,13 @@ class ChatApp {
     constructor() {
     this.chatForm = new ChatForm(FORM_SELECTOR, INPUT_SELECTOR);
 
-      socket.init('ws://localhost:3001');
-      socket.registerOpenHandler(() => {
-        let message = new ChatMessage({ message: 'pow!' });
+    socket.init('ws://localhost:3001');
+    socket.registerOpenHandler(() => {
+      this.chatForm.init((data) => {
+        let message = new ChatMessage(data);
         socket.sendMessage(message.serialize());
       });
+    });
       socket.registerMessageHandler((data) => {
         console.log(data);
       });
